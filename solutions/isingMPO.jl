@@ -1,10 +1,6 @@
 using TensorOperations, LinearAlgebra
 
-function isingMPO(;kwargs...)
-    # parameters of the Ising model are passed as keyword arguments (error if unspecified)
-    J = convert(Float64, kwargs[:J])
-    h = convert(Float64, kwargs[:h])
-
+function isingMPO(;J=1.0, h=1.0, kwargs...)
     # index order is fixed to
     #       -4       
     #        |       
@@ -53,4 +49,4 @@ function MPO_check()
 end
 
 # sanity check if construction of MPO is correct (comment next line if you finished the task)
-# MPO_check()
+MPO_check()
