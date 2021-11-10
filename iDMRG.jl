@@ -1,7 +1,27 @@
 using TensorOperations, LinearAlgebra
 
-# some random tensors to implement the contractions
-MPO = rand(2,3,2,3)
+# the parameters of the Ising model
+J = 1.0
+h = 1.0
+
+# define the MPO corresponding to the Hamiltonian
+H = zeros(3,2,3,2)
+σ₁ = [+0.0 +1.0; +1.0 +0.0]
+σ₃ = [+1.0 +0.0; +0.0 -1.0]
+σ₀ = Matrix(I, 2, 2)
+
+H[1,:,1,:] = σ₀
+H[1,:,2,:] = σ₁
+H[1,:,3,:] = h*σ₃
+H[2,:,3,:] = J*σ₁
+H[3,:,3,:] = σ₀
+
+L = [1 0 0]
+R = [0; 0; 1]
+
+
+
+##
 LE = ones(7,size(MPO,4),7); LE /= norm(LE)  # initialize left environment
 RE = ones(10,size(MPO,2),10); RE /= norm(RE)  # initialize right environment
 
