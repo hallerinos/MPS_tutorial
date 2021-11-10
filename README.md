@@ -1,7 +1,11 @@
 # Welcome!
 
-Before you start digging in the exercises, let's fix some necessities right away.
-First of all, we must choose a unique ordering of our tensors that we want to contract in a network.
+For this little tutorial, you have to implement your very own version of the iDMRG algorithm.
+But don't worry, there is no need to start from scratch!
+I've set up a rough code structure which is collected in a set of functions, and at its heart there are the [contractions.jl](contractions.jl) and the [iDMRG.jl](iDMRG.jl) files.
+The exercises are designed such that you have to implmenet contractions, and add little code fragments here and there.
+
+Before you start your intense coding session, beware to choose a unique ordering of our tensor indices beforehand, otherwise you will mix up different links in your contractions!
 The choice is fully up to you, but in the solutions you will find the following one:
 
 ```
@@ -30,10 +34,12 @@ The choice is fully up to you, but in the solutions you will find the following 
                      (-2)    (-3)                 (-2)      
 ```
 
-The exercises are meant to be done in a certain order
-1. define the matrix product operator in [isingMPO.jl](isingMPO.jl)
-2. complete the contractions in [contractions.jl](contractions.jl)
+The exercises are meant to be done in a certain order.
+1. define the matrix product operator corresponding to the Ising Hamiltonian and check it in [isingMPO.jl](isingMPO.jl)
+2. complete and check the contractions in [contractions.jl](contractions.jl)
 3. scroll through [iDMRG.jl](iDMRG.jl) and substitute all occurences of whichfunhere(...) with proper functions 
 4. complete the [measure.jl](measure.jl) contractions
 
 In case there are any issues, do not hesitate to ask, or get some inspiration from the [solutions](solutions) folder!
+
+Have fun! :)
