@@ -5,7 +5,7 @@ But don't worry, there is no need to start from scratch!
 I've set up a rough code structure which is collected in a set of functions, and at its heart there are the [contractions.jl](contractions.jl) and the [iDMRG.jl](iDMRG.jl) files.
 The exercises are designed such that you have to implement contractions, and add little code fragments here and there.
 
-Before you start your intense coding session, beware to choose a unique ordering of our tensor indices beforehand, otherwise you will mix up different links in your contractions!
+Before you start your intense coding session, beware to choose a unique ordering of all of your tensor indices beforehand, otherwise you will mix up different links in your contractions!
 The choice is fully up to you, but in the solutions you will find the following one:
 
 ```
