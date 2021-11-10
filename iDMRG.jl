@@ -40,7 +40,7 @@ function iDMRG(;verbose=1, J=1, h=1, n=100, χ=16, kwargs...)
         ene = eval[1]
         AC = evec[1]
 
-        # density / site
+        # energy density
         ene_per_site = (ene-ene_prev)/2
 
         # save previous Λ matrix
