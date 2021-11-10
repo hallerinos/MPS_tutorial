@@ -12,7 +12,7 @@ end
 
 function iDMRG(;verbose=1, J=1, h=1, n=100, χ=16, kwargs...)
     # get the MPO
-    L, W, R = isingMPO(J=J, h=h)
+    L, W, R = whichfunhere(J=J, h=h)
     LW = reshape(L, (1,3,1))
     RW = reshape(R, (1,3,1))
 
@@ -34,7 +34,7 @@ function iDMRG(;verbose=1, J=1, h=1, n=100, χ=16, kwargs...)
         AC = smart_guess(U, Λ, Λ_prev, Vdag)
 
         # solve for the lowest eigenvalue & eigenvector
-        eval, evec = eigsolve(AC, 1, :SR) do x grad(x, W, LW, RW) end
+        eval, evec = eigsolve(AC, 1, :SR) do x whichfunhere(x, W, LW, RW) end
 
         # extract it from the list of return values
         ene = eval[1]
@@ -72,11 +72,11 @@ function iDMRG(;verbose=1, J=1, h=1, n=100, χ=16, kwargs...)
         Vdag = reshape(Vdag, (χis, size(AC,3), size(AC,4)))
 
         # update environments
-        LW = absorbU(U, W, LW)
-        RW = absorbVdag(Vdag, W, RW)
+        LW = whichfunhere(U, W, LW)
+        RW = whichfunhere(Vdag, W, RW)
     end
 
     return AC, real(ene)
 end
 
-# iDMRG()  # comment if you are done
+iDMRG()  # comment when done
