@@ -12,4 +12,4 @@ for (idh, h) in enumerate(hs)
     mz[idh] = polarization
     en[idh] = ε
 end
-display(plot(hs, mz, xlabel = "h/J", ylabel="Mz"))
+display(plot(hs, mz, xlabel = "h/J", ylabel="Mz", legend=false))
