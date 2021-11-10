@@ -51,7 +51,7 @@ end
 ###############################################################
 #
 #   ----     ---       
-#  |    |-1-| A |--(-1)
+#  |    |-1-| U |--(-1)
 #  |    |    ---       
 #  |    |     |        
 #  |    |     4        
@@ -63,34 +63,34 @@ end
 #  |    |     5        
 #  |    |     |        
 #  |    |    ---       
-#  |    |-3-| A̅ |--(-3)
+#  |    |-3-| U̅ |--(-3)
 #   ----     ---       
 #
-function absorbA(A, W, LW)
-    @tensor newLW[:] := LW[1,2,3]*A[1,4,-1]*W[2,5,-2,4]*conj(A)[3,5,-3]
+function absorbU(U, W, LW)
+    @tensor newLW[:] := LW[1,2,3]*U[1,4,-1]*W[2,5,-2,4]*conj(U)[3,5,-3]
 end
 
 # write the following contraction to absorb the right isometry B
 ################################################################
 #
-#         ---     ---- 
-#  (-1)--| B |-3-|    |
-#         ---    |    |
-#          |     |    |
-#          1     |    |
-#          |     |    |
-#         ---    |    |
-#  (-2)--| W |-4-| RW |
-#         ---    |    |
-#          |     |    |
-#          2     |    |
-#          |     |    |
-#         ---    |    |
-#  (-3)--| B̅ |-5-|    |
-#         ---     ---- 
+#         ----     ---- 
+#  (-1)--| V† |-3-|    |
+#         ----    |    |
+#           |     |    |
+#           1     |    |
+#           |     |    |
+#          ---    |    |
+#   (-2)--| W |-4-| RW |
+#          ---    |    |
+#           |     |    |
+#           2     |    |
+#           |     |    |
+#         ----    |    |
+#  (-3)--| V̅†̅ |-5-|    |
+#         ----     ---- 
 #
-function absorbB(B, W, RW)
-    @tensor newRW[:] := B[-1,1,3]*W[-2,2,4,1]*conj(B)[-3,2,5]*RW[3,4,5]
+function absorbVdag(Vdag, W, RW)
+    @tensor newRW[:] := Vdag[-1,1,3]*W[-2,2,4,1]*conj(Vdag)[-3,2,5]*RW[3,4,5]
 end
 
 # test if your contractions are working
@@ -114,8 +114,8 @@ function check_contractions()
     @show ACnew ≈ AC
 
     # sanity check that energy exp. val. is computed consistently
-    tpL = absorbA(U,W,LW)
-    tpR = absorbB(Vdag,W,RW)
+    tpL = absorbU(U,W,LW)
+    tpR = absorbVdag(Vdag,W,RW)
     tpgrad = grad(AC,W,LW,RW)
     ene1 = energy(AC,W,LW,RW)
     ene2 = @tensor tpL[1,2,3]*S[1,4]*conj(S)[3,5]*tpR[4,2,5]
