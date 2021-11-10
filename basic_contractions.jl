@@ -1,4 +1,4 @@
-using TensorOperations, LinearAlgebra, BenchmarkTools
+using TensorOperations, LinearAlgebra, BenchmarkTools, UnicodePlots
 
 ## some basic contractions, implemented with the tensor macro
 #############################################################
@@ -16,7 +16,7 @@ trace = @tensor A[a,b]*B[b,c]*C[c,d]*D[d,e]*E[e,f]*F[f,a]
 ## many pitfalls -- contraction order matters a lot!
 ####################################################
 # one rank-3 and one rank-6 tensor
-m = 50
+m = 16
 A, B, C = rand(m,m,m), rand(m,m,m), rand(m,m)
 
 ## contraction example of Fig. 1
