@@ -1,7 +1,7 @@
 using TensorOperations, LinearAlgebra
 
 function isingMPO(;kwargs...)
-    # the parameters of the Ising model
+    # parameters of the Ising model are passed as keyword arguments (error if unspecified)
     J = convert(Float64, kwargs[:J])
     h = convert(Float64, kwargs[:h])
 
