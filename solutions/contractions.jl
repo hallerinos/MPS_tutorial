@@ -21,7 +21,7 @@ include("isingMPO.jl")
 #   ----     -----------      ---- 
 #
 function energy(AC, W, LW, RW)
-    # @tensor LW[ , , ]*AC[ , , , ]*W[ , , , ]*W[ , , , ]*conj(AC)[ , , , ]*RW[ , , ]
+    @tensor LW[1,2,3]*AC[1,4,5,9]*W[2,6,8,4]*W[8,7,10,5]*conj(AC)[3,6,7,11]*RW[9,10,11]
 end
 
 # write the following contraction to compute the gradient of the energy wrt conj(AC)
@@ -44,7 +44,7 @@ end
 #   ----                     ---- 
 #
 function grad(AC, W, LW, RW)
-    # @tensor grad[:] := LW[ , , ]*AC[ , , , ]*W[ , , , ]*W[ , , , ]*RW[ , , ]
+    @tensor grad[:] := LW[1,2,-1]*AC[1,3,5,6]*W[2,-2,4,3]*W[4,-3,7,5]*RW[6,7,-4]
 end
 
 # write the following contraction to absorb the LWft isometry A
@@ -67,7 +67,7 @@ end
 #   ----     ---       
 #
 function absorbU(U, W, LW)
-    # @tensor newLW[:] := LW[ , , ]*U[ , , ]*W[ , , , ]*conj(U)[ , , ]
+    @tensor newLW[:] := LW[1,2,3]*U[1,4,-1]*W[2,5,-2,4]*conj(U)[3,5,-3]
 end
 
 # write the following contraction to absorb the right isometry B
@@ -90,7 +90,7 @@ end
 #         ----     ---- 
 #
 function absorbVdag(Vdag, W, RW)
-    # @tensor newRW[:] := Vdag[ , , ]*W[ , , , ]*conj(Vdag)[ , , ]*RW[ , , ]
+    @tensor newRW[:] := Vdag[-1,1,3]*W[-2,2,4,1]*conj(Vdag)[-3,2,5]*RW[3,4,5]
 end
 
 # test if your contractions are working
@@ -114,21 +114,21 @@ function check_contractions()
     @show ACnew ≈ AC
 
 
-    # # the following block contains sanity checks
-    # # if you implemented the contractions correctly, the last line will evaluate true
-    # ################################################################################
-    # # this computes energy
-    # ene1 = energy(AC,W,LW,RW)
+    # the following block contains sanity checks
+    # if you implemented the contractions correctly, the last line will evaluate true
+    ################################################################################
+    # this computes energy
+    ene1 = energy(AC,W,LW,RW)
 
-    # # this is a block which checks absorbU and absorbVdag
-    # tpL = absorbU(U,W,LW)
-    # tpR = absorbVdag(Vdag,W,RW)
-    # ene2 = @tensor tpL[1,2,3]*S[1,4]*conj(S)[3,5]*tpR[4,2,5]
+    # this is a block which checks absorbU and absorbVdag
+    tpL = absorbU(U,W,LW)
+    tpR = absorbVdag(Vdag,W,RW)
+    ene2 = @tensor tpL[1,2,3]*S[1,4]*conj(S)[3,5]*tpR[4,2,5]
 
-    # # this is a block which checks grad
-    # tpgrad = grad(AC,W,LW,RW)
-    # ene3 = @tensor tpgrad[1,2,3,4]*conj(AC)[1,2,3,4]
-    # @show ene1 ≈ ene2 ≈ ene3
+    # this is a block which checks grad
+    tpgrad = grad(AC,W,LW,RW)
+    ene3 = @tensor tpgrad[1,2,3,4]*conj(AC)[1,2,3,4]
+    @show ene1 ≈ ene2 ≈ ene3
     return
 end
 
