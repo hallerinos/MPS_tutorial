@@ -41,5 +41,5 @@ function MPO_check()
     return 
 end
 
-# sanity check if construction of MPO is correct (comment next line if you finished the task)
-MPO_check()
+# sanity check if construction of MPO is correct
+MPO_check()  # comment if you finished the task
