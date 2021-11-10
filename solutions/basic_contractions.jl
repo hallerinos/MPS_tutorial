@@ -15,8 +15,7 @@ trace = @tensor A[a,b]*B[b,c]*C[c,d]*D[d,e]*E[e,f]*F[f,a]
 
 ## many pitfalls -- contraction order matters a lot!
 ####################################################
-# one rank-3 and one rank-6 tensor
-m = 16
+m = 64
 A, B, C = rand(m,m,m), rand(m,m,m), rand(m,m)
 
 ## contraction example of Fig. 1
@@ -34,8 +33,12 @@ cs_auto(A,B,C) = @tensor D[γ₁,γ₂] := A[γ₁,α₁,β₁]*B[γ₂,β₂,α
 @show cs_auto(A,B,C) ≈ cs_1(A,B,C) ≈ cs_2(A,B,C)  # all contractions are equivalent...
 
 ## ... but they differ in runtime due to different overall complexity
+@time cs_auto(A,B,C)
+@time cs_1(A,B,C)
+@time cs_2(A,B,C)
 b1 = median(@benchmark cs_1(A,B,C))
 b2 = median(@benchmark cs_2(A,B,C))
 ba = median(@benchmark cs_auto(A,B,C))
 @show judge(b1, b2)
-@show judge(ba, b2);  # cs_auto is the optimal contraction sequence up to a small overhead
+@show judge(ba, b1)
+@show judge(ba, b2)
