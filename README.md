@@ -43,7 +43,7 @@ The choice is fully up to you, but in the solutions you will find the following 
 ### Here some hints
 - You need to use the [TensorOperations.jl](https://github.com/Jutho/TensorOperations.jl) package.
 It's enough to understand the first examples in the official [documentation](https://jutho.github.io/TensorOperations.jl/stable/indexnotation/).
-- Some contractions that you know from my [notes](notes_TeX.pdf) are contained in [basic_contractions.jl](solutions/basic_contractions.jl).
+- Some contractions that you know from my [TeX](notes_TeX.pdf) and [handwritten notes](notes_handwritten.pdf) are contained in [basic_contractions.jl](solutions/basic_contractions.jl).
 - Have a look at [`zeros`](https://docs.julialang.org/en/v1/base/arrays/#Base.zeros) and [`rand`](https://docs.julialang.org/en/v1/stdlib/Random/#Base.rand).
 
 In case there are any issues, do not hesitate to ask, or get some inspiration from the [solutions](solutions) folder!

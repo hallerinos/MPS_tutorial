@@ -9,7 +9,7 @@ en = zeros(length(hs))
 for (idh, h) in enumerate(hs)
     ψ, ε = iDMRG(J=1., h=-h, verbose=0, n=20)
     corrs, polarization = measure_obs(ψ)
-    mz[idh] = polarization[end]
+    mz[idh] = polarization
     en[idh] = ε
 end
 display(plot(hs, mz, xlabel = "h/J", ylabel="Mz"))
