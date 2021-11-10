@@ -36,9 +36,10 @@ cs_auto(A,B,C) = @tensor D[γ₁,γ₂] := A[γ₁,α₁,β₁]*B[γ₂,β₂,α
 @time cs_auto(A,B,C)
 @time cs_1(A,B,C)
 @time cs_2(A,B,C)
+
+## ... more detailed analysis of the overall runtime (takes some time)
 b1 = median(@benchmark cs_1(A,B,C))
 b2 = median(@benchmark cs_2(A,B,C))
 ba = median(@benchmark cs_auto(A,B,C))
 @show judge(b1, b2)
-@show judge(ba, b1)
 @show judge(ba, b2)
