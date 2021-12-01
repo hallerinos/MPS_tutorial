@@ -1,6 +1,7 @@
 using ITensors
 using ITensorsVisualization
 using Plots
+using LaTeXStrings
 
 ## matrix-matrix multiplication
 i = [Index(rand(32:64), "index_$i") for i=1:3]
@@ -39,7 +40,7 @@ for χ in χs
     append!(times4, @elapsed A*B*C)    # is equivalent to (A*B)*C
 end
 @visualize A*B*C
-plot(χs, times1, yaxis=:log, label="(A*C)*B")
+plot(χs, times1, yaxis=:log, label="(A*C)*B", xlabel=L"\chi", ylabel="walltime[s]")
 plot!(χs, times2, label="A*(B*C)")
 plot!(χs, times3, label="(A*B)*C")
 plot!(χs, times4, label="A*B*C")
