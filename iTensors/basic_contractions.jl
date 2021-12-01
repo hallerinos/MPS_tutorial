@@ -28,7 +28,7 @@ times1 = []
 times2 = []
 times3 = []
 times4 = []
-χs = [6*i for i in 1:10]
+χs = [6*i for i in 1:20]
 for χ in χs
     i = [Index(χ, "index_$i") for i=1:5]
     A = randomITensor(i[1], i[2], i[3])
@@ -40,7 +40,10 @@ for χ in χs
     append!(times4, @elapsed A*B*C)    # is equivalent to (A*B)*C
 end
 @visualize A*B*C
-plot(χs, times1, yaxis=:log, label="(A*C)*B", xlabel=L"\chi", ylabel="walltime[s]")
+##
+plot(χs, times1, yaxis=:log, xaxis=:log, label="(A*C)*B", xlabel=L"\chi", ylabel="walltime[s]", legend=:topleft)
 plot!(χs, times2, label="A*(B*C)")
 plot!(χs, times3, label="(A*B)*C")
 plot!(χs, times4, label="A*B*C")
+plot!(χs, 0.2*1e-9*χs.^4, label=L"\propto\chi^4", color=:black, linestyle=:dot)
+plot!(χs, 1e-10*χs.^5, label=L"\propto\chi^5", color=:black, linestyle=:dash)
