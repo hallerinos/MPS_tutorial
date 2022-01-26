@@ -1,5 +1,5 @@
 using ITensors
-using ITensorsVisualization
+using ITensorGLMakie
 using Plots
 using LaTeXStrings
 
@@ -28,7 +28,7 @@ times1 = []
 times2 = []
 times3 = []
 times4 = []
-χs = [6*i for i in 1:20]
+χs = [6*i for i in 1:10]
 for χ in χs
     i = [Index(χ, "index_$i") for i=1:5]
     A = randomITensor(i[1], i[2], i[3])
@@ -40,7 +40,6 @@ for χ in χs
     append!(times4, @elapsed A*B*C)    # is equivalent to (A*B)*C
 end
 @visualize A*B*C
-##
 plot(χs, times1, yaxis=:log, xaxis=:log, label="(A*C)*B", xlabel=L"\chi", ylabel="walltime[s]", legend=:topleft)
 plot!(χs, times2, label="A*(B*C)")
 plot!(χs, times3, label="(A*B)*C")
