@@ -1,5 +1,5 @@
 
-function plot_magnetization(psi)
+function plot_magnetization(psi, graph)
     ns = unique([[(b.s1, b.r1) for b in graph]; [(b.s2, b.r2) for b in graph]])
     xs = [n[2][1] for n in ns]
     ys = [n[2][2] for n in ns]

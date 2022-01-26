@@ -17,14 +17,14 @@ sites = siteinds("S=1/2", N; conserve_qns=false)
 mpos = Ising_MPO(graph, sites; h=h, J=J)
 
 values = nothing
-if N < 16
+if N < 16  # only compare with ED if less than 16 sites
     @time hamiltonian_tensor = contract_MPOS(mpos)
     @time hamiltonian_matrix = tensor_to_matrix(hamiltonian_tensor)
     @time values, vectors = eigen(hamiltonian_matrix)
 end
 
 # --------------- MPS settings ----------------
-n_ex = 12  # how many excitations
+n_ex = 4  # how many excitations
 M = 16  # set the maximum bond dimension
 Ns = 100  # set the maximum number of sweeps
 etresh = 1e-12  # naïve stopping criterion
@@ -43,4 +43,4 @@ end
 @show enes[1]-exact_energy  # deviation to the analytic result at criticality
 @show enes .- values[1:n_ex]  # deviation with respect to ED
 
-[plot_magnetization(psi) for psi in psis]
+[plot_magnetization(psi, graph) for psi in psis]
