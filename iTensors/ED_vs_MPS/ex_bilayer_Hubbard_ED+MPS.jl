@@ -7,14 +7,14 @@ include("contract_MPOS.jl")
 include("tensor_to_matrix.jl")
 include("plot_local_obs.jl")
 
-Nx, Ny = 2, 2
-N, graph = square(Nx, Ny)  # see available graphs in lattices.jl
+Nx, Ny, Nz = 5, 5, 2
+N, graph = cube(Nx, Ny, Nz)  # see available graphs in lattices.jl
 conserve_qns = false
-plot_graph2d(graph)
+# plot_graph(graph)
 
 t = 1.0; U=2.0; V=10.0;
 sites = siteinds("Electron", N; conserve_qns=conserve_qns)
-mpos = Hubbard_2D(graph, sites; t=t, U=U, V=V)
+mpos = Hubbard(graph, sites; t=t, U=U, V=V)
 
 values = nothing
 hamiltonian_tensor = nothing
@@ -27,14 +27,15 @@ end
 
 # --------------- MPS settings ----------------
 n_ex = 1  # how many excitations
-M = 64  # set the maximum bond dimension
+M = 4  # set the maximum bond dimension
 Ns = 100  # set the maximum number of sweeps
 etresh = 1e-12  # naïve stopping criterion
 restart = false  # restarting from states MPS
 outputlevel = 1  # increase output from 0,1,2
-state = [isodd(n) ? "UpDn" : "0" for n in 1:N]  # half filling
-psi = MPS(sites, state)  # create random initial state
-plot_density_electrons(psi, graph);
+# state = [isodd(n) ? "UpDn" : "0" for n in 1:N]  # half filling
+psi = randomMPS(sites, M
+)  # create random initial state
+# plot_density_electrons(psi, graph);
 
 sweeps = Sweeps(Ns)  # initialize sweeps object
 maxdim!(sweeps, M)  # set bond dimension
@@ -49,4 +50,4 @@ if values != nothing
     @show enes .- values[1:n_ex]  # deviation with respect to ED
 end
 
-[plot_density_electrons(psi, graph) for psi in psis];
+# [plot_density_electrons_3d(psi, graph) for psi in psis];  ## TODO

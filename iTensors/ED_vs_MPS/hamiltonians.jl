@@ -15,7 +15,7 @@ function Ising_MPO(graph::Graph, sites; h::Float64=1.0, J::Float64=1.0)
     return MPO(ampo,sites)
 end
 
-function Hubbard_2D(graph::Graph, sites; t::Float64=1.0, U::Float64=0.0, V::Float64=0.0)
+function Hubbard(graph::Graph, sites; t::Float64=1.0, U::Float64=0.0, V::Float64=0.0)
     # automated MPO generation by a sum of operator expressions
     ampo = OpSum()
     nodes = unique([[(b.s1, b.r1) for b in graph]; [(b.s2, b.r2) for b in graph]])
@@ -37,7 +37,7 @@ function Hubbard_2D(graph::Graph, sites; t::Float64=1.0, U::Float64=0.0, V::Floa
     return MPO(ampo,sites)
 end
 
-function Hubbard_2D_spinless(graph::Graph, sites; t::Float64=1.0, V::Float64=0.0)
+function Hubbard_spinless(graph::Graph, sites; t::Float64=1.0, V::Float64=0.0)
     # automated MPO generation by a sum of operator expressions
     ampo = OpSum()
     nodes = unique([[(b.s1, b.r1) for b in graph]; [(b.s2, b.r2) for b in graph]])
