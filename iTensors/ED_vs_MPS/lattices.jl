@@ -104,9 +104,8 @@ end
 
 # square lattice
 function square(Nx::Int, Ny::Int; kwargs...) :: Tuple{Int64, Graph}
+    xperiodic = get(kwargs, :xperiodic, false)
     yperiodic = get(kwargs, :yperiodic, false)
-    yperiodic = yperiodic && (Nz > 2)
-    yperiodic == true ? error("PBC not yet implemented.") : nothing
 
     a1 = [1.0, 0.0]
     a2 = [0.0, 1.0]
@@ -119,6 +118,8 @@ function square(Nx::Int, Ny::Int; kwargs...) :: Tuple{Int64, Graph}
     lattPos = unique(lattPos)
 
     nns = [a1, a2]  # consider only nearest neighbors
+    xperiodic ? append!(nns, [-(Nx-1).*a1]) : nothing
+    yperiodic ? append!(nns, [-(Ny-1).*a2]) : nothing
 
     latt = []
     for (idr, r) in enumerate(lattPos), (idrpr, rpr) in enumerate(lattPos)
