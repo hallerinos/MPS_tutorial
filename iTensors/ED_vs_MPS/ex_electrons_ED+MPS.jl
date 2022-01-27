@@ -5,7 +5,7 @@ include("lattices.jl")
 include("hamiltonians.jl")
 include("contract_MPOS.jl")
 include("tensor_to_matrix.jl")
-include("plot_magnetization.jl")
+include("plot_local_obs.jl")
 
 Nx, Ny = 2, 2
 N, graph = square(Nx, Ny)  # see available graphs in lattices.jl
