@@ -10,11 +10,7 @@ function Ising_MPO(graph::Graph, sites; h::Float64=1.0, J::Float64=1.0)
     end
     # loop over all bonds of the graph
     for b in graph
-        dir = b.r2 .- b.r1  # the direction vector between lattice nodes
-        dist = norm(dir)
-        if dist ≈ 1  # nearest neighbor interaction
-            ampo .+= 4*J, 𝐒[1], b.s1, 𝐒[1], b.s2
-        end
+        ampo += 4*J, 𝐒[1], b.s1, 𝐒[1], b.s2
     end
     return MPO(ampo,sites)
 end
@@ -32,14 +28,11 @@ function Hubbard_2D(graph::Graph, sites; t::Float64=1.0, U::Float64=0.0, V::Floa
     C = ["Aup", "Adn"]  # vector denoting the spin matrices 0.5σᵢ
     # loop over all bonds of the graph
     for b in graph
-        dir = b.r2 .- b.r1  # the direction vector between lattice nodes
-        dist = norm(dir)
-        if dist ≈ 1  # nearest neighbor interaction
-            for s=1:length(Cdag)
-                ampo .+= -t, Cdag[s], b.s1, C[s], b.s2
-                ampo .+= -t, C[s], b.s1, Cdag[s], b.s2
-            end
+        for s=1:length(Cdag)
+            ampo += -t, Cdag[s], b.s1, C[s], b.s2
+            ampo += -t, Cdag[s], b.s2, C[s], b.s1
         end
+        ampo += V, "Ntot", b.s1, "Ntot", b.s2
     end
     return MPO(ampo,sites)
 end
@@ -51,13 +44,9 @@ function Hubbard_2D_spinless(graph::Graph, sites; t::Float64=1.0, V::Float64=0.0
 
     # loop over all bonds of the graph
     for b in graph
-        dir = b.r2 .- b.r1  # the direction vector between lattice nodes
-        dist = norm(dir)
-        if dist ≈ 1  # nearest neighbor interaction
-            ampo .+= -t, "Cdag", b.s1, "C", b.s2
-            ampo .+= -t, "Cdag", b.s2, "C", b.s1
-            ampo .+= V, "N", b.s1, "N", b.s2
-        end
+        ampo += -t, "Cdag", b.s1, "C", b.s2
+        ampo += -t, "Cdag", b.s2, "C", b.s1
+        ampo += V, "N", b.s1, "N", b.s2
     end
     return MPO(ampo,sites)
 end
