@@ -43,3 +43,21 @@ function Hubbard_2D(graph::Graph, sites; t::Float64=1.0, U::Float64=0.0, V::Floa
     end
     return MPO(ampo,sites)
 end
+
+function Hubbard_2D_spinless(graph::Graph, sites; t::Float64=1.0, V::Float64=0.0)
+    # automated MPO generation by a sum of operator expressions
+    ampo = OpSum()
+    nodes = unique([[(b.s1, b.r1) for b in graph]; [(b.s2, b.r2) for b in graph]])
+
+    # loop over all bonds of the graph
+    for b in graph
+        dir = b.r2 .- b.r1  # the direction vector between lattice nodes
+        dist = norm(dir)
+        if dist ≈ 1  # nearest neighbor interaction
+            ampo .+= -t, "Cdag", b.s1, "C", b.s2
+            ampo .+= -t, "Cdag", b.s2, "C", b.s1
+            ampo .+= V, "N", b.s1, "N", b.s2
+        end
+    end
+    return MPO(ampo,sites)
+end

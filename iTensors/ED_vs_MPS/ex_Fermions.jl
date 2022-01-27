@@ -11,9 +11,9 @@ Nx, Ny = 3, 2
 N, graph = square(Nx, Ny)  # see available graphs in lattices.jl
 plot_graph2d(graph)
 
-t = 1.0; U=1.0;
-sites = siteinds("Electron", N; conserve_qns=false)
-mpos = Hubbard_2D(graph, sites; t=t, U=U)
+t = 1.0; V=1.0;
+sites = siteinds("Fermion", N; conserve_qns=false)
+mpos = Hubbard_2D_spinless(graph, sites; t=t, V=V)
 
 values = nothing
 hamiltonian_tensor = nothing
@@ -41,7 +41,7 @@ for n=1:n_ex
     ene, psi = dmrg(mpos, psis[1:n-1], psi, sweeps, weight=1000, observer=obs, outputlevel=outputlevel)
     psis[n] = psi; enes[n] = ene;  # add state and energy to arrays
 end
-if @isdefined values
+if values != nothing
     @show enes .- values[1:n_ex]  # deviation with respect to ED
 end
 
