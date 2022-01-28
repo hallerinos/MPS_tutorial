@@ -20,12 +20,12 @@ function generate_Hubbard(Ô::Dict, graph::Graph; t::Float64=1.0, V::Float64=0.
 
     nodes = unique([[(b.s1, b.r1) for b in graph]; [(b.s2, b.r2) for b in graph]])
     for n in nodes
-        @show n
+        # @show n
         Ĥ .+= -μ.*(Ô["Adag", n[1]]*Ô["A", n[1]])
     end
     # nearest neighbor interactions
     for b in graph
-        @show b
+        # @show b
         Ĥ .+= -t.*(Ô["Adag", b.s1]*Ô["A", b.s2])
         Ĥ .+= -t.*(Ô["Adag", b.s2]*Ô["A", b.s1])
 
