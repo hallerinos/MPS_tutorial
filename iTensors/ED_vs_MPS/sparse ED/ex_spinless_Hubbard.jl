@@ -12,7 +12,7 @@ N, graph = square(Nx, Ny; xperiodic=false, yperiodic=false)  # see available gra
 tol = eps()
 nev = 7
 kdmin = 10  # minimum krylovdim
-n = N/2-1
+n = N/2
 
 @time Ô, N̂ = generate_fermion_ops(0.5, N)
 pind = getindex.(findall(x -> x == n, N̂), 1)

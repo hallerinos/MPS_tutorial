@@ -9,7 +9,7 @@ include("plot_local_obs.jl")
 
 Nx, Ny, Nz = 5, 5, 2
 N, graph = cube(Nx, Ny, Nz)  # see available graphs in lattices.jl
-conserve_qns = false
+conserve_qns = true
 # plot_graph(graph)
 
 t = 1.0; U=2.0; V=10.0;
@@ -32,9 +32,9 @@ Ns = 100  # set the maximum number of sweeps
 etresh = 1e-12  # naïve stopping criterion
 restart = false  # restarting from states MPS
 outputlevel = 1  # increase output from 0,1,2
-# state = [isodd(n) ? "UpDn" : "0" for n in 1:N]  # half filling
-psi = randomMPS(sites, M
-)  # create random initial state
+state = [isodd(n) ? "Up" : "0" for n in 1:N]  # half filling
+psi = conserve_qns ? MPS(sites, state) : randomMPS(sites, M)
+# psi = randomMPS(sites, M)  # create random initial state
 # plot_density_electrons(psi, graph);
 
 sweeps = Sweeps(Ns)  # initialize sweeps object

@@ -37,3 +37,23 @@ function plot_density_electrons(psi, graph)
     axis("off")
     return fig
 end
+
+function plot_density_spinless_fermions(psi, graph)
+    ns = unique([[(b.s1, b.r1) for b in graph]; [(b.s2, b.r2) for b in graph]])
+    xs = [n[2][1] for n in ns]
+    ys = [n[2][2] for n in ns]
+    density = expect(psi, "N")
+    @show sum(density), density
+    fig = figure(figsize=2.0.*((3+3/8), (3+3/8)/1.25))
+    scatter(xs, ys, marker="h", s=density*3200)
+    maxx = maximum(xs)
+    maxy = maximum(ys)
+    minx = minimum(xs)
+    miny = minimum(ys)
+    dy = (maxy-miny)/Ny
+    dx = (maxx-minx)/Nx
+    ylim(miny-dy,maxy+dy)
+    xlim(minx-dx,maxx+dx)
+    axis("off")
+    return fig
+end

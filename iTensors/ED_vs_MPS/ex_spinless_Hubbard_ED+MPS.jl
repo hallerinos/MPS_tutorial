@@ -10,9 +10,10 @@ include("plot_local_obs.jl")
 Nx, Ny = 3, 2
 N, graph = square(Nx, Ny)  # see available graphs in lattices.jl
 # plot_graph2d(graph)
+conserve_qns = true
 
 t = 1.0; V=1.0;
-sites = siteinds("Fermion", N; conserve_qns=false)
+sites = siteinds("Fermion", N; conserve_qns=conserve_qns)
 mpos = Hubbard_spinless(graph, sites; t=t, V=V)
 
 values = nothing
@@ -25,13 +26,17 @@ if N < 7  # only compare with ED if less than 8 sites
 end
 
 # --------------- MPS settings ----------------
-n_ex = 1  # how many excitations
-M = 16  # set the maximum bond dimension
+n_ex = 2  # how many excitations
+M = 256  # set the maximum bond dimension
 Ns = 100  # set the maximum number of sweeps
 etresh = 1e-12  # naïve stopping criterion
 restart = false  # restarting from states MPS
 outputlevel = 1  # increase output from 0,1,2
-psi = randomMPS(sites, M)  # create random initial state
+state = [isodd(n) ? "1" : "0" for n in 1:N]  # half filling
+# state[2] = "1"
+psi = conserve_qns ? MPS(sites, state) : randomMPS(sites, M)
+plot_density_spinless_fermions(psi, graph)
+
 sweeps = Sweeps(Ns)  # initialize sweeps object
 maxdim!(sweeps, M)
 obs = DMRGObserver(; energy_tol=etresh)
@@ -42,7 +47,8 @@ for n=1:n_ex
     psis[n] = psi; enes[n] = ene;  # add state and energy to arrays
 end
 if values != nothing
+    @show enes
     @show enes .- values[1:n_ex]  # deviation with respect to ED
 end
 
-# [plot_magnetization(psi, graph) for psi in psis];
+[plot_density_spinless_fermions(psi, graph) for psi in psis];

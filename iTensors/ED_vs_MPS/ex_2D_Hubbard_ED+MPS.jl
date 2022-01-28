@@ -9,7 +9,7 @@ include("plot_local_obs.jl")
 
 Nx, Ny = 2, 2
 N, graph = square(Nx, Ny)  # see available graphs in lattices.jl
-conserve_qns = false
+conserve_qns = true
 # plot_graph2d(graph)
 
 t = 1.0; U=2.0; V=10.0;
