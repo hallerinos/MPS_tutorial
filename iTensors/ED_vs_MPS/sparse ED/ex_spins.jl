@@ -10,7 +10,7 @@ N, graph = square(Nx, Ny)  # see available graphs in lattices.jl
 # plot_graph2d(graph)
 
 tol = eps()
-nev = 5
+nev = 20
 kdmin = 10  # minimum krylovdim
 exact_energy = 1 - 1/sin(π/(4*N+2))  # energy at criticality
 
