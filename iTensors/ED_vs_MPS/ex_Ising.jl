@@ -7,9 +7,11 @@ include("contract_MPOS.jl")
 include("tensor_to_matrix.jl")
 include("plot_local_obs.jl")
 
-Nx, Ny = 3, 3
+Nx, Ny = 3, 2
 N, graph = square(Nx, Ny)  # see available graphs in lattices.jl
-# plot_graph(graph)
+# fig = plot_graph(graph)
+# plt.savefig("iTensors/ED_vs_MPS/graph.pdf")
+
 exact_energy = 1 - 1/sin(π/(4*N+2))  # exact ising energy in 1D at criticality
 
 h = 1.0; J=1.0;
@@ -43,4 +45,4 @@ end
 @show enes[1]-exact_energy  # deviation to the analytic result at criticality
 @show enes .- values[1:n_ex]  # deviation with respect to ED
 
-[plot_magnetization(psi, graph) for psi in psis];
+# [plot_magnetization(psi, graph) for psi in psis];
